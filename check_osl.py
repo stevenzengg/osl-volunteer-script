@@ -90,7 +90,7 @@ print(f"Buttons hash: {current_hash}")
 print(f"Hash changed: {hash_changed}")
 
 # Alert if either check triggers
-if button_changed or hash_changed or True:
+if button_changed or hash_changed:
     print("SOMETHING CHANGED — APPS MAY BE OPEN!")
     body = ""
     if button_changed:
