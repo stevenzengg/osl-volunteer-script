@@ -1,0 +1,29 @@
+name: Check OSL Volunteer Apps
+
+on:
+  schedule:
+    # Every 15 min during 8am-11pm PT (15:00-06:00 UTC)
+    - cron: '*/15 15-23 * * *'
+    - cron: '*/15 0-6 * * *'
+    # Every hour overnight PT (07:00-14:00 UTC)
+    - cron: '0 7-14 * * *'
+  workflow_dispatch: # manual trigger for testing
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install requests beautifulsoup4
+
+      - run: python check_osl.py
+        env:
+          OSL_USERNAME: ${{ secrets.OSL_USERNAME }}
+          OSL_PASSWORD: ${{ secrets.OSL_PASSWORD }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
